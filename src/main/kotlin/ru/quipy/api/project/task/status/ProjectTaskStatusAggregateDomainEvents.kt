@@ -22,7 +22,7 @@ class ProjectTasksCreatedEvent(
     val projectId: UUID,
     createdAt: Long = System.currentTimeMillis(),
 ) : Event<ProjectTaskStatusAggregate>(
-    name = TASK_CREATED_EVENT,
+    name = PROJECT_TASKS_CREATED_EVENT,
     createdAt = createdAt
 )
 

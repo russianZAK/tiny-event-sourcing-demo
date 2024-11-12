@@ -17,21 +17,14 @@ import javax.annotation.PostConstruct
 @Component
 class ProjectTaskStatusEventsSubscriber (
     private val subscriptionsManager: AggregateSubscriptionsManager,
-    private val projectTaskStatusEsService: EventSourcingService<UUID, ProjectTaskStatusAggregate, ProjectTaskStatusAggregateState>,
-    private val sagaManager: SagaManager
+    private val projectTaskStatusEsService: EventSourcingService<UUID, ProjectTaskStatusAggregate, ProjectTaskStatusAggregateState>
 ) {
 
-    val projectTaskStatusSagaName = "PROJECT_CREATED"
     @PostConstruct
     fun init() {
         subscriptionsManager.createSubscriber(ProjectUserAggregate::class, "project-task-status::project-user-subscriber") {
             `when`(ProjectCreatedEvent::class) { event ->
-                val sagaContext = sagaManager
-                    .withContextGiven(event.sagaContext)
-                    .performSagaStep(projectTaskStatusSagaName, "create project with tasks")
-                    .sagaContext()
-
-                projectTaskStatusEsService.create(sagaContext) {
+                projectTaskStatusEsService.create {
                     it.createProjectWithTasks(event.projectId)
                 }
             }

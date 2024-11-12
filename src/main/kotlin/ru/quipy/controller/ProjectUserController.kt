@@ -21,16 +21,11 @@ import java.util.*
 @RestController
 @RequestMapping("/users-project")
 class ProjectUserController(
-    val projectUserEsService: EventSourcingService<UUID, ProjectUserAggregate, ProjectUserAggregateState>,
-    val sagaManager: SagaManager
+    val projectUserEsService: EventSourcingService<UUID, ProjectUserAggregate, ProjectUserAggregateState>
     ) {
     @PostMapping("/create-project")
     fun createProject(@RequestBody request: CreateProjectDto) : ProjectCreatedEvent {
-        val projectTaskStatusSagaName = "PROJECT_CREATED"
-        val sagaContext = sagaManager
-            .launchSaga(projectTaskStatusSagaName, "start saga")
-            .sagaContext()
-        return projectUserEsService.create(sagaContext) { it.create(title = request.title, creatorId = request.creatorId) }
+        return projectUserEsService.create { it.create(title = request.title, creatorId = request.creatorId) }
     }
 
     @PostMapping("/add-user-to-project/{projectId}")

@@ -25,7 +25,6 @@ class ProjectTaskStatusController(
     @PostMapping("/update-task-status/{projectId}")
     fun updateTaskStatus(@PathVariable projectId: UUID, @RequestBody request: TaskStatusUpdateDto) : TaskStatusUpdatedEvent {
         return projectTaskStatusEsService.update(projectId) {it.updateTaskStatus(projectId, request.taskId, request.newTaskStatusId)}
-
     }
 
     @PostMapping("/update-task-title/{projectId}")
