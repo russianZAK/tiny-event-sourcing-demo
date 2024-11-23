@@ -1,7 +1,5 @@
-package ru.quipy.projections
+package ru.quipy.subcribers
 
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
 import ru.quipy.api.project.task.status.*
 import ru.quipy.api.project.user.ProjectCreatedEvent
@@ -9,7 +7,6 @@ import ru.quipy.api.project.user.ProjectUserAggregate
 import ru.quipy.core.EventSourcingService
 import ru.quipy.logic.project.task.status.ProjectTaskStatusAggregateState
 import ru.quipy.logic.project.task.status.createProjectWithTasks
-import ru.quipy.saga.SagaManager
 import ru.quipy.streams.AggregateSubscriptionsManager
 import java.util.*
 import javax.annotation.PostConstruct
