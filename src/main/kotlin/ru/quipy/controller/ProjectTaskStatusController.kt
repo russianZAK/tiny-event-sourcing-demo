@@ -5,12 +5,15 @@ import ru.quipy.api.project.task.status.*
 import ru.quipy.core.EventSourcingService
 import ru.quipy.logic.project.task.status.*
 import ru.quipy.logic.project.user.ProjectUserAggregateState
+import ru.quipy.projections.ProjectViewDomain
+import ru.quipy.projections.service.ProjectViewService
 import java.util.*
 
 @RestController
 @RequestMapping("/project-task-status")
 class ProjectTaskStatusController(
-    val projectTaskStatusEsService: EventSourcingService<UUID, ProjectTaskStatusAggregate, ProjectTaskStatusAggregateState>
+    val projectTaskStatusEsService: EventSourcingService<UUID, ProjectTaskStatusAggregate, ProjectTaskStatusAggregateState>,
+    val projectViewService: ProjectViewService
 ) {
     @PostMapping("/create-task/{projectId}")
     fun createTask(@PathVariable projectId: UUID, @RequestBody request: CreateTaskDto) : TaskCreatedEvent {
